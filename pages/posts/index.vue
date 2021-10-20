@@ -1,7 +1,7 @@
 <template>
   <div class="posts-page">
     <section class="post-list">
-      <PostList />
+      <PostList :is-admin="isAdmin" :posts="loadedPosts"/>
     </section>
   </div>
 </template>
@@ -11,6 +11,16 @@ import PostList from '~/components/Posts/PostList'
 export default {
   components: {
     PostList
+  },
+  data() {
+    return {
+      isAdmin: false
+    }
+  },
+  computed: {
+    loadedPosts() {
+      return this.$store.getters.loadedPosts
+    }
   }
 }
 </script>

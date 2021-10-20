@@ -1,12 +1,12 @@
 <template>
   <section class="container single-post-page">
     <section class="post">
-      <h2 class="post-title">Post Title</h2>
+      <h2 class="post-title">{{ loadedPost.title }}</h2>
       <div class="post-details">
-        <div class="post-detail">Last update XXXXX</div>
-        <div class="post-detail">Written by Name</div>
+        <div class="post-detail">Last update {{ loadedPost.updatedAt }}</div>
+        <div class="post-detail">Written by {{ loadedPost.author }}</div>
       </div>
-      <p class="post-content">Contendof the Post</p>
+      <p class="post-content">{{ loadedPost.content }}</p>
     </section>
     <section class="post-feedback">
       <p>Give me a feedback<a href="mailto:foo.bar@fizz.baz">foo.bar@fizz.baz</a>.</p>
@@ -15,7 +15,26 @@
 </template>
 
 <script>
-
+import PostList from '~/components/Posts/PostList'
+export default {
+  components: {
+    PostList
+  },
+  asyncData(context, callback) {
+    setTimeout(() => {
+      callback(null, {
+        loadedPost: {
+          id: '1',
+          author: 'me',
+          thumbnailLink: 'https://static.pexels.com/photos/270348/pexels-photo-270348.jpeg',
+          title: 'Post Title 1 (ID: ' + context.params.id + ')',
+          content: 'Post preview text 1',
+          updatedAt: new Date(),
+        }
+      });
+    }, 1000);
+  }
+}
 </script>
 
 <style scoped>
