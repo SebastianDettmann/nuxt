@@ -5,9 +5,9 @@
       :key="post.id"
       :is-admin = "isAdmin"
       :postId = "post.id"
-      :thumbnail = "post.thumbnailLink"
+      :thumbnail = "post.thumbnail"
       :title = "post.title"
-      :previewText = "post.content"
+      :previewText = "post.previewText"
     />
   </section>
 </template>

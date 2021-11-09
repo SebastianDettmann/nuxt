@@ -1,4 +1,5 @@
 import Vuex from 'vuex'
+import axios from 'axios';
 
 const createStore = () => {
   return new Vuex.Store({
@@ -8,40 +9,56 @@ const createStore = () => {
     mutations: {
       setPosts(state, posts) {
         state.loadedPosts = posts
+      },
+      addPost(state, newPost) {
+        state.loadedPosts.push(newPost)
+      },
+      editPost(state, editedPost) {
+        console.log(' editedPost');
+        console.log( editedPost);
+        const postIndex = state.loadedPosts.findIndex(
+          post => post.id === editedPost.id
+        );
+        console.log('postIndex');
+        console.log(postIndex);
+        state.loadedPosts[postIndex] = editedPost;
       }
     },
     actions: {
       nuxtServerInit(vuexContext, context) {
-        return new Promise((resolve, reject) => {
-          vuexContext.commit('setPosts', [
-            {
-              id: '1',
-              author: 'metze',
-              thumbnailLink: 'https://static.pexels.com/photos/270348/pexels-photo-270348.jpeg',
-              title: 'Post Title 1',
-              content: 'Post preview text 1'
-            },
-            {
-              id: '2',
-              author: 'me to',
-              thumbnailLink: 'https://static.pexels.com/photos/270348/pexels-photo-270348.jpeg',
-              title: 'Post Title 2',
-              content: 'Post preview text 3'
-            },
-            {
-              id: '3',
-              author: 'also me',
-              thumbnailLink: 'https://static.pexels.com/photos/270348/pexels-photo-270348.jpeg',
-              title: 'Post Title 3',
-              content: 'Post preview text 3'
+         return axios.get('https://nuxt-blog-7efc2-default-rtdb.europe-west1.firebasedatabase.app/posts.json')
+          .then(response => {
+            const postArray = [];
+            for (const key in response.data) {
+              postArray.push({ ...response.data[key], id: key})
             }
-          ]);
-          resolve();
-        });
+             vuexContext.commit('setPosts', postArray)
+          })
+          .catch(error => context.error(error))
       },
       setPosts(vuexContext, posts) {
         vuexContext.commit('setPosts', posts)
-      }
+      },
+      addPost(vuexContext, newPost) {
+        const createdPost = {
+          ...newPost,
+          updatedDate: new Date()
+        };
+        return axios.post('https://nuxt-blog-7efc2-default-rtdb.europe-west1.firebasedatabase.app/posts.json', createdPost)
+          .then(response => {
+            vuexContext.commit('addPost', {...createdPost, id: response.data.name});
+          })
+          .catch(error => console.log(error));
+      },
+      editPost(vuexContext, editedPost) {
+        editedPost.updatedDate = new Date();
+        return axios.put('https://nuxt-blog-7efc2-default-rtdb.europe-west1.firebasedatabase.app/posts/' + editedPost.id + '.json', editedPost)
+          .then(response => {
+            vuexContext.commit('editPost', editedPost);
+          })
+          .catch(error => console.log(error))
+      },
+
     },
     getters: {
       loadedPosts(state) {

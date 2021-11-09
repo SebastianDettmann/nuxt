@@ -3,7 +3,7 @@
     <section class="post">
       <h2 class="post-title">{{ loadedPost.title }}</h2>
       <div class="post-details">
-        <div class="post-detail">Last update {{ loadedPost.updatedAt }}</div>
+        <div class="post-detail">Last update {{ loadedPost.updatedDate }}</div>
         <div class="post-detail">Written by {{ loadedPost.author }}</div>
       </div>
       <p class="post-content">{{ loadedPost.content }}</p>
@@ -15,24 +15,20 @@
 </template>
 
 <script>
-import PostList from '~/components/Posts/PostList'
+import PostList from '~/components/Posts/PostList';
+import axios from 'axios';
 export default {
   components: {
     PostList
   },
-  asyncData(context, callback) {
-    setTimeout(() => {
-      callback(null, {
-        loadedPost: {
-          id: '1',
-          author: 'me',
-          thumbnailLink: 'https://static.pexels.com/photos/270348/pexels-photo-270348.jpeg',
-          title: 'Post Title 1 (ID: ' + context.params.id + ')',
-          content: 'Post preview text 1',
-          updatedAt: new Date(),
-        }
-      });
-    }, 1000);
+  asyncData(context) {
+    return axios.get('https://nuxt-blog-7efc2-default-rtdb.europe-west1.firebasedatabase.app/posts/' + context.params.id + '.json')
+    .then(response => {
+      return {
+        loadedPost: response.data
+      }
+    })
+    .catch(error => context.error(error))
   }
 }
 </script>
