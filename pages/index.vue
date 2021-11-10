@@ -13,82 +13,11 @@ export default {
   components: {
     PostList
   },
-  // fetch(context) {
-  //   return new Promise((resolve, reject) => {
-  //     setTimeout(() => {
-  //       resolve({
-  //         loadedPosts: [
-  //           {
-  //             id: '1',
-  //             author: 'me',
-  //             thumbnailLink: 'https://static.pexels.com/photos/270348/pexels-photo-270348.jpeg',
-  //             title: 'Post Title 1',
-  //             content: 'Post preview text 1'
-  //           },
-  //           {
-  //             id: '2',
-  //             author: 'me to',
-  //             thumbnailLink: 'https://static.pexels.com/photos/270348/pexels-photo-270348.jpeg',
-  //             title: 'Post Title 2',
-  //             content: 'Post preview text 3'
-  //           },
-  //           {
-  //             id: '3',
-  //             author: 'also me',
-  //             thumbnailLink: 'https://static.pexels.com/photos/270348/pexels-photo-270348.jpeg',
-  //             title: 'Post Title 3',
-  //             content: 'Post preview text 3'
-  //           }
-  //         ]
-  //       });
-  //     }, 1500);
-  //   })
-  //   .then(data => {
-  //     context.store.dispatch('setPosts', data.loadedPosts)
-  //   });
-  // },
   computed: {
     loadedPosts() {
       return this.$store.getters.loadedPosts
     }
   }
-  // asyncData(context) {
-  //   return new Promise((resolve, reject) => {
-  //     setTimeout(() => {
-  //       resolve({
-  //         loadedPosts: [
-  //           {
-  //             id: '1',
-  //             author: 'me',
-  //             thumbnailLink: 'https://static.pexels.com/photos/270348/pexels-photo-270348.jpeg',
-  //             title: 'Post Title 1',
-  //             content: 'Post preview text 1'
-  //           },
-  //           {
-  //             id: '2',
-  //             author: 'me to',
-  //             thumbnailLink: 'https://static.pexels.com/photos/270348/pexels-photo-270348.jpeg',
-  //             title: 'Post Title 2',
-  //             content: 'Post preview text 3'
-  //           },
-  //           {
-  //             id: '3',
-  //             author: 'also me',
-  //             thumbnailLink: 'https://static.pexels.com/photos/270348/pexels-photo-270348.jpeg',
-  //             title: 'Post Title 3',
-  //             content: 'Post preview text 3'
-  //           }
-  //         ]
-  //       });
-  //     }, 1500);
-  //   })
-  //   .then(data => {
-  //     return data
-  //   });
-  // },
-  // created() {
-  //   this.$store.dispatch('setPosts', this.loadedPosts)
-  // }
 }
 </script>
 <style scoped>
